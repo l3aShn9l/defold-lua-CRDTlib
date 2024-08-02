@@ -13,4 +13,10 @@ input_method = HiddenInputField
 
 [project]
 title = defold-lua-CRDTlib
+dependencies#0 = https://github.com/heroiclabs/nakama-defold/archive/v3.3.0.zip
+dependencies#1 = https://github.com/defold/extension-websocket/archive/4.0.0.zip
+dependencies#2 = https://github.com/defold/extension-crypt/archive/1.1.0.zip
+
+[library]
+include_dirs = CRDTlib
 
