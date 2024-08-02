@@ -1,54 +1,49 @@
 SyncTable = {}
+function SyncTable:new(username)
+  local self = {}
+  self.table = {}
+  self.operations = {}
+  self.user = username
+  self.counter = 1
+  return self
+end
 
-function SyncTable:new(input_table)
-  local table = {}
-  local Storage = {123}
-  for k,v in pairs(input_table) do
-    table[k] = v
+function SyncTable:getTable(sync_table,key,value)
+
+end
+
+function SyncTable:remove(sync_table,key)
+  if sync_table.table[key] ~= nil then
+    if sync_table.operations[sync_table.table[key].operation] == nil then
+      print("Error: SyncTable:remove")
+    else
+      sync_table.operations[sync_table.table[key].operation] = false
+    end
   end
-  setmetatable(table,self)
-  self.__index = self; return table
+    table.remove(sync_table.table,key)
+    
 end
 
-function SyncTable:getStorage()
-  return self.Storage
+function SyncTable:insert(sync_table,key,value)
+  local tuple = {}
+  tuple.value = value
+  tuple.operation = sync_table.user..":"..tostring(sync_table.counter)
+  sync_table.operations[tuple.operation] = true
+  sync_table.counter = sync_table.counter + 1
+  table.insert(sync_table.table,key,tuple)
 end
-
-function SyncTable:set(key,value)
-  self[key] = value
-end
-
-function SyncTable:remove(key)
-  if type(key) == "string" then
-    self[key] = nil
-  elseif type(key) == "number" then
-    table.remove(self,key)
-  end
-end
-
-function SyncTable:insert(key,value)
-  table.insert(self,key,value)
+function SyncTable:merge(first_sync_table,second_sync_table)
+  first_inserts
+  second_inserts
+  common
+  
 end
 ---------------------------------------------
-a = {"a", "b","c","d"}
-local t = SyncTable:new(a)
---for k,v in pairs(t) do
-  --print(k,v)
---end
-for k,v in pairs(t) do
-  print(k,v)
+first_table = SyncTable:new("Vasya")
+second_table = SyncTable:new("Petya")
+SyncTable:insert(first_table, 1,"!")
+SyncTable:insert(first_table, 1,"8")
+--second_table:insert(second_table, 3,"?")
+for k,v in pairs(first_table.table) do
+    print(k,v.operation)
 end
---t:remove(2)
---t:set(2,nil)
---t[#t+1] = 6
-t:insert(6,"joker")
-t:insert(1,"thief")
---t:remove(5)
---t:insert(5,"hello")
-t:remove(3)
---t:insert(1,"bastard")
-for k,v in pairs(t) do
-  print(k,v)
-end
-print(#t)
---print(t[1])
